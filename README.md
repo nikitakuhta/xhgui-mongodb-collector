@@ -4,6 +4,8 @@ Now it can be used to export xhprof profiles to XHGui MongoDB database. Easy to 
 
 Example:
 ```php
+<?php
+
 use XHProfExporter\Exporter\XHGuiMongo\Configuration;
 use XHProfExporter\Exporter\XHGuiMongo\Exporter;
 use XHProfExporter\XHProfExporter;
@@ -28,6 +30,8 @@ You can extend library, using your own exporters and profilers. Just use your im
 You can override profiler, if you need (e.g. if you use another implementation of xhprof, like `tideways_xhprof` or `uprofiler`);
 Example:
 ```php
+<?php
+
 use XHProfExporter\Profile;
 use XHProfExporter\Profiler\ProfilerInterface;
 
@@ -64,6 +68,7 @@ You can create your own exporter and use in XHProfExporter class, if your custom
 Also you can override default DataCollector, that collects additional data for XHGui (like url, execution time e.t.c.).
 Example:
 ```php
+<?php
 
 use XHProfExporter\Exporter\XHGuiMongo\Configuration;
 use XHProfExporter\Exporter\XHGuiMongo\DataCollector;
@@ -91,3 +96,33 @@ $collector = new XHProfExporter(
 );
 $collector->startProfileCollection();
 ```
+
+#### Laravel middleware example
+```php
+<?php
+
+namespace App\Http\Middleware;
+
+use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken as Middleware;
+use XHProfExporter\Exporter\XHGuiMongo\Configuration;
+use XHProfExporter\Exporter\XHGuiMongo\Exporter;
+use XHProfExporter\XHProfExporter;
+
+class Xhprof extends Middleware
+{
+    public function handle($request, \Closure $next)
+    {
+        $collector = new XHProfExporter(
+            new Exporter(
+                new Configuration('mongodb://mongodbhost:27017', 'xhprof')
+            )
+        );
+        $collector->startProfileCollection();
+
+        $result = $next($request);
+        $collector->flushProfile();
+        return $result;
+    }
+}
+```
+Just add this middleware to Kernel.php, and then all your requests will be logged into XHGui.
