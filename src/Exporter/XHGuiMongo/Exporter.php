@@ -4,6 +4,7 @@ declare(strict_types=1);
 namespace XHProfExporter\Exporter\XHGuiMongo;
 
 use MongoDB\Client;
+use XHProfExporter\Exporter\DataCollectorInterface;
 use XHProfExporter\Exporter\ExporterInterface;
 use XHProfExporter\Profile;
 
@@ -20,7 +21,7 @@ class Exporter implements ExporterInterface
     private $collection;
 
     /**
-     * @var DataCollector
+     * @var DataCollectorInterface
      */
     private $dataCollector;
 
@@ -34,7 +35,7 @@ class Exporter implements ExporterInterface
         return new Configuration();
     }
 
-    public function __construct(Configuration $configuration = null, DataCollector $dataCollector = null)
+    public function __construct(Configuration $configuration = null, DataCollectorInterface $dataCollector = null)
     {
         if (is_null($configuration)) {
             $configuration = self::getDefaultConfiguration();

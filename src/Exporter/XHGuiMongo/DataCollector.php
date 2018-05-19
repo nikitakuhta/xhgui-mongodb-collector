@@ -10,6 +10,8 @@ class DataCollector
 {
     public function collectProfileInformation(Profile $profile): array
     {
+        $time = $this->getTime();
+
         return [
             'profile' => $this->transformProfile($profile->getProfileData()),
             'meta' => [
@@ -48,7 +50,7 @@ class DataCollector
 
     private function getTime(): int
     {
-        $time = array_key_exists('REQUEST_TIME', $_SERVER)
+        return array_key_exists('REQUEST_TIME', $_SERVER)
             ? (int) $_SERVER['REQUEST_TIME']
             : time();
     }
