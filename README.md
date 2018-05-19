@@ -97,7 +97,7 @@ $collector = new XHProfExporter(
 $collector->startProfileCollection();
 ```
 
-#### Laravel middleware example
+### Laravel middleware example with XHProf and XHGui
 ```php
 <?php
 
