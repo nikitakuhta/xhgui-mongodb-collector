@@ -1,8 +1,9 @@
-### Simple XHProf data exporter.
+### Easy-to-use XHProf data collector & exporter.
 
-Now it can be used to export xhprof profiles to XHGui MongoDB database. Easy to use in middleware.
+This library can be used to collect profiles and save them to any external storage (like XHGui database).
+At the moment it can be used to export xhprof profiles to XHGui MongoDB database. Library can be extended with any custom profile or exporter.
 
-Example:
+Example of use:
 ```php
 <?php
 
